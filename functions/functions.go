@@ -13,15 +13,24 @@ func main() {
 	emoji := "dog"
 	change(&emoji)
 	fmt.Println(emoji)
-	fmt.Println(functionWithReturn(2,3))
+	fmt.Println(functionWithReturn(2,3)) //nolint:gofmt
 
 	text := "CrISTiaN"
 	mins, mays := functionReturnMultipleValues(text)
+
 	fmt.Println(mins, mays, "\n")
 
 
 	controlErrors()
-	
+	functionReceivingFunctions()
+
+	fmt.Println(sum2(1,2,3,4,5))
+
+	x := func(name string) {
+		fmt.Println("Hello from func autoinvocate", name)
+	}
+
+	x("Good job")
 }
 
 func functionsWithParameters(firstName string, lastName string) {
@@ -81,4 +90,44 @@ func personalFunctionDivision2(dividendo, divisor int) (result int, err error) {
 	}
 	result = dividendo / divisor
 	return
+}
+
+
+func functionReceivingFunctions() {
+	nums := []int{1, 4, 70, 5, 67, 90, 2}
+	result := filter(nums, func(num int) bool {
+		return num >= 10
+	})
+
+	fmt.Println(result)
+
+	x := hello("Cristian")
+	fmt.Println(x("Morales"))
+}
+
+
+func filter(nums []int, callback func(int) bool) []int {
+	var result []int
+	for _, v := range nums {
+		if callback(v) {
+			result = append(result, v)
+		}
+	}
+	return result
+}
+
+func hello(name string) func(lastname string) string {
+	return func(lastname string) string {
+		return "Hello " + name + " " + lastname
+	}
+}
+
+// Variatic Functions
+// ... spread operator
+func sum2(nums ...int) int {
+	total := 0
+	for _, v := range nums {
+		total += v
+	}
+	return total
 }
